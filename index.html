@@ -6,198 +6,366 @@
     <title>AKATSUKI ELOBOOST | www.AKboosting.com</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
+        /* --- ANIMACIONES --- */
+        @keyframes rgbFlow {
+            0% { color: #fff; text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); }
+            50% { color: #fff; text-shadow: 0 0 25px rgba(255, 255, 255, 0.9), 0 0 40px rgba(255, 255, 255, 0.4); }
+            100% { color: #fff; text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); }
+        }
+
+        @keyframes redGlow {
+            0% { border-color: #450a0a; box-shadow: 0 0 5px rgba(255, 0, 0, 0.1); }
+            50% { border-color: #dc2626; box-shadow: 0 0 15px rgba(220, 38, 38, 0.3); }
+            100% { border-color: #450a0a; box-shadow: 0 0 5px rgba(255, 0, 0, 0.1); }
+        }
+
         body {
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+            background: #000;
             color: #ffffff;
             font-family: 'Inter', sans-serif;
-            display: flex; justify-content: center; padding: 40px 20px; margin: 0;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- SECCIÓN HERO (FONDO LIMPIO) --- */
+        .hero-banner {
+            width: 100%;
+            height: 450px;
+            background: #000; /* Fondo negro sólido sin imagen */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-since {
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #a1a1aa;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .hero-main-title {
+            font-size: 72px;
+            font-weight: 900;
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        .hero-main-title span {
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+
+        .hero-main-title span::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            left: -5%;
+            width: 110%;
+            height: 20px;
+            background: #ff4655;
+            z-index: -1;
+            transform: skewX(-15deg);
+        }
+
+        /* --- BOTONES SOCIALES --- */
+        .top-right-actions {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            z-index: 100;
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-btn {
+            background: rgba(255, 255, 255, 0.05);
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            text-decoration: none;
+            border: 1px solid #27272a;
+        }
+
+        .social-btn:hover { border-color: #fff; transform: translateY(-3px); background: rgba(255, 255, 255, 0.1); }
+        .social-btn svg { width: 24px; fill: white; }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .page-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 20px 60px 20px;
+            margin-top: -60px;
         }
 
         .main-container {
-            width: 100%; max-width: 900px; background-color: rgba(0, 0, 0, 0.95);
-            border: 1px solid #27272a; border-radius: 16px; padding: 40px;
+            width: 100%;
+            max-width: 900px;
+            background-color: #09090b;
+            border: 1px solid #27272a;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            border-radius: 16px;
+            position: relative;
+            z-index: 2;
         }
 
-        .header-section { text-align: center; margin-bottom: 30px; }
-        .header-section h1 { font-size: 32px; font-weight: 900; color: #ff4655; margin: 0; letter-spacing: 2px; text-transform: uppercase; }
+        .header-section { text-align: center; margin-bottom: 40px; }
+        .header-section h1 { 
+            font-size: 64px; 
+            font-weight: 900; margin: 0; letter-spacing: 4px; 
+            text-transform: uppercase; animation: rgbFlow 4s infinite ease-in-out;
+        }
+        .header-description {
+            color: #a1a1aa; font-size: 16px; line-height: 1.6; max-width: 750px;
+            margin: 20px auto 0 auto;
+        }
 
         .selectors-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
         .select-box label { display: block; margin-bottom: 10px; color: #a1a1a1; font-size: 13px; font-weight: 600; text-transform: uppercase; }
         
         select, textarea {
-            width: 100%; background-color: #09090b; border: 1px solid #27272a; color: #fff;
-            padding: 14px; border-radius: 8px; outline: none; font-size: 14px;
+            width: 100%; background-color: #000; border: 1px solid #27272a; color: #fff;
+            padding: 14px; border-radius: 8px; outline: none; font-size: 14px; transition: 0.3s;
         }
 
-        .country-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin: 30px 0; }
-        .country-card { background: #09090b; border: 1px solid #1a1a1a; padding: 20px; border-radius: 12px; text-align: center; }
-        .country-name { color: #71717a; font-size: 11px; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
-        .country-price { font-size: 22px; font-weight: 800; color: #ffffff; margin-bottom: 4px; }
-        .country-sub { color: #52525b; font-size: 10px; }
-
-        .request-card { background: #0d0d0e; border: 1px solid #1a1a1a; padding: 30px; border-radius: 12px; margin-top: 20px; }
-        .field-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #fff; }
-        .field-subtext { color: #52525b; font-size: 12px; margin-top: 4px; margin-bottom: 18px; }
+        .country-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 30px 0; }
+        .country-card { 
+            background: #000; border: 1px solid #1a1a1a; padding: 20px; 
+            border-radius: 12px; text-align: center;
+        }
+        .country-name { color: #71717a; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+        .country-price { font-size: 22px; font-weight: 800; color: #ffffff; margin: 5px 0; }
 
         .btn-solicitar-main {
-            width: 100%; padding: 18px; background: #0f0f0f; color: white;
-            border: 1px solid #333; border-radius: 8px; font-weight: 700; cursor: pointer;
-            text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; padding: 18px; background: #fff; color: #000;
+            border: none; border-radius: 8px; font-weight: 800; cursor: pointer;
+            text-transform: uppercase; transition: 0.3s; margin-top: 20px;
         }
+        .btn-solicitar-main:hover { background: #ff4655; color: #fff; }
+
+        .request-card { background: #000; border: 1px solid #27272a; padding: 30px; border-radius: 12px; margin-top: 20px; border-top: 2px solid #ef4444; }
         .btn-group { display: flex; gap: 15px; margin-top: 20px; }
         .btn-back { flex: 1; padding: 15px; background: #27272a; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; }
-        .btn-confirm { flex: 1; padding: 15px; background: #475264; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; }
+        .btn-confirm { flex: 1; padding: 15px; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; }
 
-        #final-ticket {
-            position: absolute; left: -9999px; width: 800px; background: #000; padding: 60px; text-align: center; color: white;
+        /* SLIDER FEEDBACK */
+        .feedback-section { margin-top: 60px; position: relative; padding: 20px 0; border-top: 1px solid #1a1a1a; }
+        .feedback-title {
+            text-align: center; font-size: 16px; color: #ef4444; margin-bottom: 30px;
+            text-transform: uppercase; letter-spacing: 4px; font-weight: 800;
         }
-        .ticket-footer { margin-top: 60px; border-top: 1px solid #222; padding-top: 20px; color: #666; font-size: 18px; }
+        .slider-wrapper { position: relative; overflow: hidden; width: 100%; }
+        .feedback-container { display: flex; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); gap: 20px; }
+        .feedback-card {
+            min-width: calc(33.333% - 14px); background: #000; border: 1px solid #1a1a1b;
+            border-radius: 12px; padding: 22px; animation: redGlow 5s infinite ease-in-out;
+        }
+        .user-info { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .user-avatar {
+            width: 32px; height: 32px; background: linear-gradient(135deg, #450a0a, #991b1b);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;
+        }
+
+        .nav-btn {
+            position: absolute; top: 55%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.8); border: 1px solid #450a0a; color: #ef4444;
+            width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 10;
+        }
+        .prev-btn { left: -15px; }
+        .next-btn { right: -15px; }
+
+        .dots-container { display: flex; justify-content: center; gap: 4px; margin-top: 25px; }
+        .dot { width: 4px; height: 4px; background: #27272a; border-radius: 50%; cursor: pointer; }
+        .dot.active { background: #ef4444; width: 12px; border-radius: 10px; }
+
+        .payment-methods-section { margin-top: 60px; padding-top: 40px; border-top: 1px solid #1a1a1a; text-align: center; }
+        .payment-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 25px; }
+        .payment-item {
+            background: #000; border: 1px solid #27272a; padding: 25px; border-radius: 12px;
+            width: 140px; display: flex; flex-direction: column; align-items: center;
+        }
+        .payment-icon { width: 45px; height: 45px; margin-bottom: 15px; }
+
+        .legal-notice {
+            margin-top: 50px; background: rgba(239, 68, 68, 0.05); 
+            border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 12px; 
+            padding: 25px; display: flex; gap: 20px; align-items: flex-start;
+        }
+        .legal-notice svg { color: #ef4444; flex-shrink: 0; }
+        .legal-notice h4 { margin: 0 0 8px 0; color: #ef4444; font-size: 16px; text-transform: uppercase; font-weight: 800; }
+        .legal-notice p { margin: 0; color: #a1a1aa; font-size: 14px; line-height: 1.6; }
+
+        #final-ticket { 
+            position: absolute; left: -9999px; width: 600px; 
+            background: #050505; padding: 40px; border: 2px solid #ef4444;
+            color: white; border-radius: 20px; font-family: 'Inter', sans-serif;
+        }
 
         #resultsWrapper, #requestFormSection { display: none; }
+        @media (max-width: 768px) { 
+            .hero-main-title { font-size: 42px; }
+            .feedback-card { min-width: 100%; } 
+            .prev-btn, .next-btn { display: none; } 
+        }
     </style>
 </head>
 <body>
 
-<div class="main-container">
-    <div class="header-section">
-        <h1>AKATSUKI ELOBOOST</h1>
-    </div>
+<div class="hero-banner">
+    <div class="hero-since">BOOSTING DESDE 2025</div>
+    <h2 class="hero-main-title">Simplemente el<br><span>mejor elo boost.</span></h2>
+</div>
 
-    <div class="selectors-grid">
-        <div class="select-box">
-            <label>Rango Actual</label>
-            <select id="currentRank" onchange="updatePrices()"></select>
+<div class="top-right-actions">
+    <a href="https://www.tiktok.com/@akatsuki.boosting" target="_blank" class="social-btn">
+        <svg viewBox="0 0 448 512"><path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.32c7.87,34.19,20.4,49.16,35,59.39,18,12.6,40,16.4,70.92,17.2V209.91Z"/></svg>
+    </a>
+    <a href="https://discord.gg/NP5UT7GJK4" target="_blank" class="social-btn">
+        <svg viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.06,72.06,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.71,32.65-1.82,56.6.39,80.21a105.73,105.73,0,0,0,32.21,16.15c2.66-3.59,4.94-7.43,6.85-11.45a68.54,68.54,0,0,1-10.84-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19c1.9,4,4.19,7.85,6.85,11.44a105.57,105.57,0,0,0,32.28-16.15C129.7,50.49,121.39,26.79,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
+    </a>
+</div>
+
+<div class="page-content">
+    <div class="main-container">
+        <div class="header-section">
+            <h1>AKATSUKI ELOBOOST</h1>
+            <p class="header-description">
+                <strong>Domina el servidor y alcanza el rango que realmente mereces.</strong> Ofrecemos el servicio de elobust más letal de VALORANT. <strong>Rápido, discreto y al mejor precio del mercado.</strong>
+            </p>
         </div>
-        <div class="select-box">
-            <label>Rango Objetivo</label>
-            <select id="desiredRank" onchange="updatePrices()"></select>
+
+        <div class="selectors-grid">
+            <div class="select-box"><label>Rango Actual</label><select id="currentRank" onchange="updatePrices()"></select></div>
+            <div class="select-box"><label>Rango Objetivo</label><select id="desiredRank" onchange="updatePrices()"></select></div>
         </div>
-    </div>
 
-    <div id="resultsWrapper">
-        <div style="text-align: center; border-top: 1px solid #1a1a1a; padding-top: 25px;">
-            <div style="font-size: 44px; font-weight: 900; margin: 10px 0;">$<span id="usdDisplay">0.00</span> <span style="font-size: 18px; color: #52525b;">USD</span></div>
+        <div id="resultsWrapper">
+            <div style="text-align: center; border-top: 1px solid #1a1a1a; padding-top: 25px;">
+                <div style="font-size: 44px; font-weight: 900; margin: 10px 0;">$<span id="usdDisplay">0.00</span> <span style="font-size: 18px; color: #52525b;">USD</span></div>
+            </div>
+            <div class="country-grid" id="countryContainer"></div>
+            <button class="btn-solicitar-main" id="btnShowForm" onclick="showForm()">Solicitar Boost</button>
         </div>
-        <div class="country-grid" id="countryContainer"></div>
-        <button class="btn-solicitar-main" id="btnShowForm" onclick="showForm()">
-            <svg width="18" viewBox="0 0 24 24" fill="white"><path d="M13 10V3L4 14H11V21L20 10H13Z"/></svg>
-            Solicitar Boost
-        </button>
-    </div>
 
-    <div id="requestFormSection">
-        <div class="request-card">
-            <h3 style="text-align:center; margin-bottom:25px;">Completar Solicitud de Boost</h3>
-            
-            <label class="field-label">💳 Método de Pago Preferido</label>
-            <select id="payMethod">
-                <option value="" disabled selected>Selecciona tu método de pago</option>
-                <option value="PayPal">PayPal</option>
-                <option value="Transferencia Bancaria">Transferencia Bancaria</option>
-                <option value="Binance / Crypto">Binance / Crypto</option>
-            </select>
-            <div class="field-subtext">Selecciona tu método de pago preferido</div>
+        <div id="requestFormSection">
+            <div class="request-card">
+                <h3 style="text-align:center; color:#ef4444;">Finalizar Pedido</h3>
+                <label>💳 Método de Pago</label><select id="payMethod"><option value="Transferencia">Transferencia</option><option value="PayPal">PayPal</option></select>
+                <label style="display:block; margin-top:15px;">🔄 Moneda</label><select id="payCurrency"><option value="CLP">CLP</option><option value="PEN">PEN</option><option value="ARS">ARS</option><option value="USD">USD</option></select>
+                <label style="display:block; margin-top:15px;">Notas</label><textarea id="extraNotes" rows="2" placeholder="Agente preferido..."></textarea>
+                <div class="btn-group">
+                    <button class="btn-back" onclick="hideForm()">Atrás</button>
+                    <button class="btn-confirm" onclick="finishOrder()">Confirmar</button>
+                </div>
+            </div>
+        </div>
 
-            <label class="field-label">🔄 Moneda de Pago Preferida</label>
-            <select id="payCurrency">
-                <option value="" disabled selected>Selecciona la moneda</option>
-                <option value="CLP - Pesos Chilenos">CLP - Pesos Chilenos</option>
-                <option value="PEN - Soles Peruanos">PEN - Soles Peruanos</option>
-                <option value="ARS - Pesos Argentinos">ARS - Pesos Argentinos</option>
-                <option value="COP - Pesos Colombianos">COP - Pesos Colombianos</option>
-                <option value="MXN - Pesos Mexicanos">MXN - Pesos Mexicanos</option>
-                <option value="USD - Dólares Estadounidenses">USD - Dólares Estadounidenses</option>
-                <option value="EUR - Euros">EUR - Euros</option>
-            </select>
-            <div class="field-subtext">Selecciona la moneda en la que prefieres pagar</div>
+        <div class="feedback-section">
+            <div class="feedback-title">Comunidad Akatsuki</div>
+            <button class="nav-btn prev-btn" onclick="moveSlide(-1)">❮</button>
+            <button class="nav-btn next-btn" onclick="moveSlide(1)">❯</button>
+            <div class="slider-wrapper"><div class="feedback-container" id="feedbackSlider"></div></div>
+            <div class="dots-container" id="dotsContainer"></div>
+        </div>
 
-            <label class="field-label">Notas Adicionales (Opcional)</label>
-            <textarea id="extraNotes" rows="3" placeholder="Detalles especiales, preguntas, etc."></textarea>
+        <div class="payment-methods-section">
+            <h2 style="font-size: 24px;">Métodos de Pago</h2>
+            <div class="payment-grid">
+                <div class="payment-item"><svg viewBox="0 0 24 24" class="payment-icon" fill="none" stroke="#ef4444" stroke-width="2"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg><span>Banco</span></div>
+                <div class="payment-item"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" class="payment-icon"><span>PayPal</span></div>
+            </div>
+        </div>
 
-            <div class="btn-group">
-                <button class="btn-back" onclick="hideForm()">← Volver a Precios</button>
-                <button class="btn-confirm" onclick="finishOrder()">Solicitar Boost</button>
+        <div class="legal-notice">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <div>
+                <h4>Aviso Legal Importante</h4>
+                <p><strong>AKATSUKI ELOBOOST no tiene afiliación con Riot Games.</strong> Valorant es una marca registrada de Riot Games, Inc. Somos un servicio independiente de asesoría y mejora de nivel.</p>
             </div>
         </div>
     </div>
 </div>
 
 <div id="final-ticket">
-    <h1 style="font-size:36px;">Cotización AKATSUKI</h1>
-    <div style="display:flex; justify-content:center; align-items:center; gap:50px; margin:50px 0;">
-        <div>DESDE:<br><h2 id="t-from"></h2></div>
-        <div style="font-size:50px; color:#ff4655;">→</div>
-        <div>HASTA:<br><h2 id="t-to"></h2></div>
+    <div style="border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px; text-align: center;">
+        <div style="font-size: 28px; font-weight: 900; color: #fff;">AKATSUKI ELOBOOST</div>
     </div>
-    <div style="font-size:32px; font-weight:800;">TOTAL: <span id="t-price" style="color:#ff4655;"></span></div>
-    <div class="ticket-footer">@akatsukiboost • www.AKboosting.com</div>
+    <div id="t-ranks"></div>
+    <div id="t-price" style="font-size: 30px; font-weight: 900; text-align: center; margin-top: 20px; color: #ef4444;"></div>
 </div>
 
 <script>
-    const ranks = [
-        "Hierro 1", "Hierro 2", "Hierro 3", "Bronce 1", "Bronce 2", "Bronce 3", 
-        "Plata 1", "Plata 2", "Plata 3", "Oro 1", "Oro 2", "Oro 3", 
-        "Platino 1", "Platino 2", "Platino 3", "Diamante 1", "Diamante 2", "Diamante 3",
-        "Ascendente 1", "Ascendente 2", "Ascendente 3", "Inmortal 1", "Inmortal 2", "Inmortal 3"
+    const feedbackData = [
+        { u: "Xae_01", t: "Sinceramente no confiaba pero me cerraron la boca, subido en 2 dias." },
+        { u: "Juampi_Ar", t: "Excelente servicio. El booster jugaba con Reyna y no fallaba una." },
+        { u: "Dark_Soul99", t: "Todo ok, super discretos que era lo que mas me importaba." },
+        { u: "Valkyrie.vlr", t: "Muy buena atención por discord, me ayudaron con el pago rapido." },
+        { u: "Seba_cl", t: "Wena los cabros, de una de oro 1 a diamante. Recomendadísimos." },
+        { u: "KillerQueen", t: "Quick and easy. No issues at all with my settings." }
     ];
 
-    const countries = [
-        { name: "cl Chile", rate: 980, cur: "CLP", sub: "Transferencia local" },
-        { name: "pe Perú", rate: 3.75, cur: "S/", sub: "Soles peruanos" },
-        { name: "ar Argentina", rate: 1250, cur: "$", sub: "Pesos argentinos" },
-        { name: "co Colombia", rate: 4000, cur: "$", sub: "Pesos colombianos" },
-        { name: "mx México", rate: 18.50, cur: "$", sub: "Pesos mexicanos" },
-        { name: "eu Euro", rate: 0.92, cur: "€", sub: "Euros" },
-        { name: "paypal PayPal", rate: 1.15, cur: "$", sub: "Incluye comisiones" }
-    ];
+    const slider = document.getElementById('feedbackSlider');
+    feedbackData.forEach(f => {
+        const card = document.createElement('div');
+        card.className = 'feedback-card';
+        card.innerHTML = `<div class="user-info"><div class="user-avatar">${f.u[0]}</div><div>${f.u}</div></div><div style="color:#fbbf24; font-size:10px;">★★★★★</div><div style="color:#a1a1aa; font-size:12px; font-style:italic;">"${f.t}"</div>`;
+        slider.appendChild(card);
+    });
+
+    const ranks = ["Hierro 1", "Hierro 2", "Hierro 3", "Bronce 1", "Bronce 2", "Bronce 3", "Plata 1", "Plata 2", "Plata 3", "Oro 1", "Oro 2", "Oro 3", "Platino 1", "Platino 2", "Platino 3", "Diamante 1", "Diamante 2", "Diamante 3", "Ascendente 1", "Ascendente 2", "Ascendente 3", "Inmortal 1", "Inmortal 2", "Inmortal 3"];
+    const countries = [{ name: "Chile", rate: 980, cur: "CLP" }, { name: "Perú", rate: 3.75, cur: "S/" }, { name: "Argentina", rate: 1250, cur: "$" }, { name: "PayPal", rate: 1.15, cur: "$" }];
 
     const cSelect = document.getElementById('currentRank');
     const dSelect = document.getElementById('desiredRank');
-    ranks.forEach((r, i) => { 
-        cSelect.add(new Option(r, i)); 
-        dSelect.add(new Option(r, i)); 
-    });
+    ranks.forEach((r, i) => { cSelect.add(new Option(r, i)); dSelect.add(new Option(r, i)); });
 
     function updatePrices() {
         let diff = dSelect.value - cSelect.value;
         if (diff > 0) {
             document.getElementById('resultsWrapper').style.display = "block";
-            let total = diff * 1.00; // Precio base por división
+            let total = diff * 1.50;
             document.getElementById('usdDisplay').innerText = total.toFixed(2);
             let html = '';
-            countries.forEach(c => {
-                html += `<div class="country-card"><div class="country-name">${c.name}</div><div class="country-price">${c.cur} ${(total*c.rate).toLocaleString()}</div><div class="country-sub">${c.sub}</div></div>`;
-            });
+            countries.forEach(c => { html += `<div class="country-card"><div class="country-name">${c.name}</div><div class="country-price">${c.cur} ${(total*c.rate).toLocaleString()}</div></div>`; });
             document.getElementById('countryContainer').innerHTML = html;
         } else { document.getElementById('resultsWrapper').style.display = "none"; }
     }
 
-    function showForm() {
-        document.getElementById('requestFormSection').style.display = "block";
-        document.getElementById('btnShowForm').style.display = "none";
-    }
-
-    function hideForm() {
-        document.getElementById('requestFormSection').style.display = "none";
-        document.getElementById('btnShowForm').style.display = "block";
-    }
+    function showForm() { document.getElementById('requestFormSection').style.display = "block"; document.getElementById('btnShowForm').style.display = "none"; }
+    function hideForm() { document.getElementById('requestFormSection').style.display = "none"; document.getElementById('btnShowForm').style.display = "block"; }
 
     function finishOrder() {
-        if(!document.getElementById('payMethod').value || !document.getElementById('payCurrency').value) {
-            alert("Por favor completa los campos de pago.");
-            return;
-        }
-        document.getElementById('t-from').innerText = cSelect.options[cSelect.selectedIndex].text;
-        document.getElementById('t-to').innerText = dSelect.options[dSelect.selectedIndex].text;
+        document.getElementById('t-ranks').innerText = ranks[cSelect.value] + " → " + ranks[dSelect.value];
         document.getElementById('t-price').innerText = "$" + document.getElementById('usdDisplay').innerText + " USD";
 
-        html2canvas(document.getElementById('final-ticket')).then(canvas => {
+        html2canvas(document.getElementById('final-ticket'), { backgroundColor: '#050505' }).then(canvas => {
             let link = document.createElement('a');
-            link.download = 'Cotizacion-AKboosting.png';
-            link.href = canvas.toDataURL("image/png");
+            link.download = 'Akatsuki-Order.png';
+            link.href = canvas.toDataURL();
             link.click();
             window.open('https://discord.gg/NP5UT7GJK4', '_blank');
         });
+    }
+
+    let currentSlide = 0;
+    function moveSlide(dir) {
+        const visible = window.innerWidth <= 768 ? 1 : 3;
+        currentSlide = Math.max(0, Math.min(currentSlide + (dir * visible), feedbackData.length - visible));
+        const width = slider.children[0].offsetWidth + 20;
+        slider.style.transform = `translateX(-${currentSlide * width}px)`;
     }
 </script>
 </body>
